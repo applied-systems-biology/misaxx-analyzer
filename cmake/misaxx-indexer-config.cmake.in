@@ -1,0 +1,7 @@
+@PACKAGE_INIT@
+
+find_package(misaxx-core REQUIRED)
+
+if(NOT TARGET misaxx-indexer)
+include(${CMAKE_CURRENT_LIST_DIR}/misaxx-indexer-targets.cmake)
+endif()
