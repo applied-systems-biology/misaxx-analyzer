@@ -10,7 +10,6 @@ namespace misaxx_indexer {
         info.set_description("@PROJECT_DESCRIPTION@");
         
         info.add_dependency(misaxx::module_info());
-        // TODO: Add dependencies via info.add_dependency()
         return info;
     }
 }

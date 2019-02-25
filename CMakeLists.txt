@@ -5,12 +5,13 @@ find_package(misaxx-core REQUIRED)
 # Add additional packages if necessary
 
 add_library(misaxx-indexer include/misaxx-indexer/module_interface.h
-                           include/misaxx-indexer/module.h
-                           src/misaxx-indexer/module_interface.cpp
-                           src/misaxx-indexer/module.cpp)
+        include/misaxx-indexer/module.h
+        src/misaxx-indexer/module_interface.cpp
+        src/misaxx-indexer/module.cpp
+        src/misaxx-indexer/util/sqlite_orm.h)
 
 # Add additional link targets if necessary
-target_link_libraries(misaxx-indexer misaxx::misaxx-core) 
+target_link_libraries(misaxx-indexer misaxx::misaxx-core)
 
 # MISA++ helper script (automatically included by Core Library)
 set(MISAXX_LIBRARY misaxx-indexer)
