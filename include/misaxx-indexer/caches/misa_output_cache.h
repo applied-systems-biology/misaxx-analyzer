@@ -22,6 +22,11 @@ namespace misaxx_indexer {
          */
         misaxx::misa_json m_full_attachment_schemas;
 
+        /**
+         * The attachments
+         */
+        std::vector<misaxx::misa_json> m_attachments;
+
         void postprocess() override;
 
         void do_link(const misa_output_description &t_description) override;

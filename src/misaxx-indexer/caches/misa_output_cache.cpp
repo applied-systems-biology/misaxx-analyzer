@@ -23,6 +23,29 @@ void misaxx_indexer::misa_output_cache::do_link(const misaxx_indexer::misa_outpu
     m_full_attachment_schemas.force_link(get_location() / "attachments",
                                          misaxx::misa_description_storage::with(misaxx::misa_json_description(
                                                  get_location() / "attachments" / "serialization-schemas-full.json")));
+
+    // Link attachments
+    if(boost::filesystem::exists(get_location() / "attachments" / "exported")) {
+        for(const boost::filesystem::path& entry : boost::make_iterator_range(
+                boost::filesystem::recursive_directory_iterator(get_location() / "attachments" / "exported"))) {
+            if(entry.extension() == ".json") {
+                misaxx::misa_json cache;
+                cache.force_link(entry.parent_path(), misaxx::misa_description_storage::with(misaxx::misa_json_description(entry)));
+                m_attachments.emplace_back(std::move(cache));
+            }
+        }
+    }
+
+    if(boost::filesystem::exists(get_location() / "attachments" / "imported")) {
+        for(const boost::filesystem::path& entry : boost::make_iterator_range(
+                boost::filesystem::recursive_directory_iterator(get_location() / "attachments" / "imported"))) {
+            if(entry.extension() == ".json") {
+                misaxx::misa_json cache;
+                cache.force_link(entry.parent_path(), misaxx::misa_description_storage::with(misaxx::misa_json_description(entry)));
+                m_attachments.emplace_back(std::move(cache));
+            }
+        }
+    }
 }
 
 misaxx_indexer::misa_output_description

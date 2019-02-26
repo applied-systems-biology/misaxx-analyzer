@@ -18,6 +18,12 @@ namespace misaxx_indexer {
         const misaxx::misa_json get_attachment_schemas() const;
 
         /**
+         * Returns the attachment caches
+         * @return
+         */
+        std::vector<misaxx::misa_json> get_attachments() const;
+
+        /**
          * Returns a cache that contains the full attachment schemas
          * @return
          */

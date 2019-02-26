@@ -13,3 +13,7 @@ const misaxx::misa_json misaxx_indexer::misa_output::get_attachment_schemas() co
 misaxx::misa_json misaxx_indexer::misa_output::get_full_attachment_schemas() {
     return data->m_full_attachment_schemas;
 }
+
+std::vector<misaxx::misa_json> misaxx_indexer::misa_output::get_attachments() const {
+   return data->m_attachments;
+}
