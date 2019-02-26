@@ -8,7 +8,17 @@ add_library(misaxx-indexer include/misaxx-indexer/module_interface.h
         include/misaxx-indexer/module.h
         src/misaxx-indexer/module_interface.cpp
         src/misaxx-indexer/module.cpp
-        src/misaxx-indexer/util/sqlite_orm.h src/misaxx-indexer/schema_traversion_task.cpp src/misaxx-indexer/schema_traversion_task.h)
+        src/misaxx-indexer/util/sqlite_orm.h
+        src/misaxx-indexer/schema_traversion_task.cpp
+        src/misaxx-indexer/schema_traversion_task.h
+        src/misaxx-indexer/patterns/misa_output_pattern.cpp
+        include/misaxx-indexer/patterns/misa_output_pattern.h
+        src/misaxx-indexer/descriptions/misa_output_description.cpp
+        include/misaxx-indexer/descriptions/misa_output_description.h
+        src/misaxx-indexer/descriptions/misa_output_description.cpp
+        include/misaxx-indexer/descriptions/misa_output_description.h
+        src/misaxx-indexer/patterns/misa_output_pattern.cpp
+        include/misaxx-indexer/patterns/misa_output_pattern.h src/misaxx-indexer/accessors/misa_output.cpp include/misaxx-indexer/accessors/misa_output.h src/misaxx-indexer/caches/misa_output_cache.cpp include/misaxx-indexer/caches/misa_output_cache.h)
 
 # Add additional link targets if necessary
 target_link_libraries(misaxx-indexer misaxx::misaxx-core)
