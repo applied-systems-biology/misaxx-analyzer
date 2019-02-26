@@ -6,6 +6,10 @@
 
 #include "misaxx-indexer/accessors/misa_output.h"
 
-misaxx::misa_json misaxx_indexer::misa_output::get_attachment_schemas() {
+const misaxx::misa_json misaxx_indexer::misa_output::get_attachment_schemas() const {
     return data->m_attachment_schemas;
+}
+
+misaxx::misa_json misaxx_indexer::misa_output::get_full_attachment_schemas() {
+    return data->m_full_attachment_schemas;
 }

@@ -11,11 +11,18 @@ void misaxx_indexer::misa_output_cache::postprocess() {
 void misaxx_indexer::misa_output_cache::do_link(const misaxx_indexer::misa_output_description &t_description) {
     set(t_description.folder);
     set_unique_location(t_description.folder);
+
+    // Link attachment schemas
     m_attachment_schemas.force_link(get_location() / "attachments",
-            misaxx::misa_description_storage::with(misaxx::misa_json_description(get_location() / "attachments" / "serialization-schemas.json")));
-    std::cout << m_attachment_schemas.data->get_filename() << std::endl;
-    if(!m_attachment_schemas.exists())
+                                    misaxx::misa_description_storage::with(misaxx::misa_json_description(
+                                            get_location() / "attachments" / "serialization-schemas.json")));
+    if (!m_attachment_schemas.exists())
         throw std::runtime_error("Serialization schemata for attachments do not exist!");
+
+    // Link full attachment schemas
+    m_full_attachment_schemas.force_link(get_location() / "attachments",
+                                         misaxx::misa_description_storage::with(misaxx::misa_json_description(
+                                                 get_location() / "attachments" / "serialization-schemas-full.json")));
 }
 
 misaxx_indexer::misa_output_description

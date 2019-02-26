@@ -17,6 +17,11 @@ namespace misaxx_indexer {
          */
         misaxx::misa_json m_attachment_schemas;
 
+        /**
+         * Contains the full set of attachment schemas
+         */
+        misaxx::misa_json m_full_attachment_schemas;
+
         void postprocess() override;
 
         void do_link(const misa_output_description &t_description) override;

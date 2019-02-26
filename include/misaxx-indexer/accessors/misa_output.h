@@ -15,7 +15,13 @@ namespace misaxx_indexer {
          * Returns a cache that gives access to attachment schemas
          * @return
          */
-        misaxx::misa_json get_attachment_schemas();
+        const misaxx::misa_json get_attachment_schemas() const;
+
+        /**
+         * Returns a cache that contains the full attachment schemas
+         * @return
+         */
+        misaxx::misa_json get_full_attachment_schemas();
     };
 }
 
