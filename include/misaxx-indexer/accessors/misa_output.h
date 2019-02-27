@@ -28,6 +28,12 @@ namespace misaxx_indexer {
          * @return
          */
         misaxx::misa_json get_full_attachment_schemas();
+
+        /**
+         * Returns the attachment index database
+         * @return
+         */
+        attachment_index get_attachment_index();
     };
 }
 

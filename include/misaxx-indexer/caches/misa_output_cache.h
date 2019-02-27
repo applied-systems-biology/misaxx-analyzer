@@ -7,6 +7,7 @@
 #include <misaxx/core/misa_default_cache.h>
 #include <misaxx/core/accessors/misa_json.h>
 #include <misaxx-indexer/patterns/misa_output_pattern.h>
+#include <misaxx-indexer/accessors/attachment_index.h>
 
 namespace misaxx_indexer {
     struct misa_output_cache : public misaxx::misa_default_cache<misaxx::utils::memory_cache<boost::filesystem::path>,
@@ -26,6 +27,11 @@ namespace misaxx_indexer {
          * The attachments
          */
         std::vector<misaxx::misa_json> m_attachments;
+
+        /**
+         * Database that indexes all attachments
+         */
+        attachment_index m_attachment_index;
 
         void postprocess() override;
 

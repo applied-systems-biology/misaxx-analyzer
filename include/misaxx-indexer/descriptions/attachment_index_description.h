@@ -7,7 +7,7 @@
 #include <misaxx/core/descriptions/misa_file_description.h>
 
 namespace misaxx_indexer {
-    struct misa_sqlite_description : public misaxx::misa_file_description {
+    struct attachment_index_description : public misaxx::misa_file_description {
         using misaxx::misa_file_description::misa_file_description;
 
         void from_json(const nlohmann::json &t_json) override;

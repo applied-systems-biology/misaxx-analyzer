@@ -18,7 +18,13 @@ namespace misaxx_indexer {
 
         void create_parameters(misaxx::misa_parameter_builder &t_parameters) override;
 
-        void discover(const nlohmann::json &json, const boost::filesystem::path &path);
+        void discover(const nlohmann::json &json, const std::vector<std::string> &path, misaxx::readwrite_access<attachment_index_database> &db);
+
+    private:
+
+        std::string sample;
+        std::string cache;
+
     };
 }
 

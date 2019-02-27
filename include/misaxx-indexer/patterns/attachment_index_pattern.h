@@ -8,8 +8,8 @@
 #include <misaxx/core/patterns/misa_file_pattern.h>
 
 namespace misaxx_indexer {
-    struct misa_sqlite_pattern : public misaxx::misa_file_pattern {
-        misa_sqlite_pattern();
+    struct attachment_index_pattern : public misaxx::misa_file_pattern {
+        attachment_index_pattern();
 
         std::string get_documentation_name() const override;
 

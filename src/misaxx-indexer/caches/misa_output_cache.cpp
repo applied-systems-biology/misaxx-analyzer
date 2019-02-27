@@ -30,7 +30,7 @@ void misaxx_indexer::misa_output_cache::do_link(const misaxx_indexer::misa_outpu
                 boost::filesystem::recursive_directory_iterator(get_location() / "attachments" / "exported"))) {
             if(entry.extension() == ".json") {
                 misaxx::misa_json cache;
-                cache.force_link(entry.parent_path(), misaxx::misa_description_storage::with(misaxx::misa_json_description(entry)));
+                cache.force_link(entry.parent_path(), std::make_shared<misaxx::misa_json_description>(entry));
                 m_attachments.emplace_back(std::move(cache));
             }
         }
@@ -41,11 +41,14 @@ void misaxx_indexer::misa_output_cache::do_link(const misaxx_indexer::misa_outpu
                 boost::filesystem::recursive_directory_iterator(get_location() / "attachments" / "imported"))) {
             if(entry.extension() == ".json") {
                 misaxx::misa_json cache;
-                cache.force_link(entry.parent_path(), misaxx::misa_description_storage::with(misaxx::misa_json_description(entry)));
+                cache.force_link(entry.parent_path(), std::make_shared<misaxx::misa_json_description>(entry));
                 m_attachments.emplace_back(std::move(cache));
             }
         }
     }
+
+    // Link attachment index database
+    m_attachment_index.force_link(get_location(), std::make_shared<attachment_index_description>("attachment-index.sqlite"));
 }
 
 misaxx_indexer::misa_output_description
