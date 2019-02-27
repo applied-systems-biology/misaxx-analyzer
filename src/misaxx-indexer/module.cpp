@@ -11,10 +11,19 @@ void module::create_blueprints(blueprint_list &t_blueprints, parameter_list &t_p
 }
 
 void module::build(const misaxx::misa_dispatcher::blueprint_builder &t_builder) {
-    t_builder.build<schema_traversion_task>("schema-traversion");
-    for(const auto &attachments : get_module_as<module_interface>()->data.get_attachments()) {
-        auto &task = t_builder.build<attachment_indexer_task>("attachment-indexer");
-        task.attachments = attachments;
+    if(!boost::filesystem::exists(data.get_location() / "attachments" / "serialization-schemas-full.json"))
+        t_builder.build<schema_traversion_task>("schema-traversion");
+    else
+        std::cout << "Skipping serialization schema traversion ..." << "\n";
+
+    if(!boost::filesystem::exists(data.get_location() / "attachment-index.sqlite")) {
+        for(const auto &attachments : get_module_as<module_interface>()->data.get_attachments()) {
+            auto &task = t_builder.build<attachment_indexer_task>("attachment-indexer");
+            task.attachments = attachments;
+        }
+    }
+    else {
+        std::cout << "Skipping attachment indexing ..." << "\n";
     }
 }
 
