@@ -3,6 +3,10 @@
 
 namespace misaxx_analyzer {
     struct module : public misaxx::misa_module<module_interface> {
+
+        misaxx::misa_parameter<bool> m_enable_schema_traversion;
+        misaxx::misa_parameter<bool> m_enable_attachment_indexing;
+
         using misaxx::misa_module<module_interface>::misa_module;
 
         void create_blueprints(blueprint_list &t_blueprints, parameter_list &t_parameters) override;
