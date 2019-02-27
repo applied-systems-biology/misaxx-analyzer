@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.11) # Or higher if required
-project(misaxx-analyzer VERSION 0.1.0 DESCRIPTION "MISA++ Indexer")
+project(misaxx-analyzer VERSION 0.1.0 DESCRIPTION "MISA++ Analysis Helper")
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/modules/")
 
