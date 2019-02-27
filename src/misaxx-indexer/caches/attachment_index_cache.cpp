@@ -29,6 +29,11 @@ namespace {
 
         explicit attachment_index_database_impl(const std::string &path) : database(create_storage(path)) {
             database.sync_schema();
+            database.begin_transaction();
+        }
+
+        ~attachment_index_database_impl() {
+            database.commit();
         }
 
         void insert(const attachment_index_row &row) override {
