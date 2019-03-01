@@ -1,15 +1,6 @@
 #pragma once
-#include <misaxx/core/misa_mutable_module_info.h>
 #include <misaxx/core/module_info.h>
 
 namespace misaxx_analyzer {
-    inline misaxx::misa_module_info module_info() {
-        misaxx::misa_mutable_module_info info;
-        info.set_id("@PROJECT_NAME@");
-        info.set_version("@PROJECT_VERSION@");
-        info.set_name("@PROJECT_DESCRIPTION@");
-        info.set_description("Companion module for MISA-ImageJ that applies performance-critical tasks");
-        info.add_dependency(misaxx::module_info());
-        return info;
-    }
+    extern misaxx::misa_module_info module_info();
 }
