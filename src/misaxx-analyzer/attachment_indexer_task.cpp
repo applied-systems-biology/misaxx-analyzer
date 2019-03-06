@@ -26,7 +26,7 @@ int attachment_indexer_task::discover(nlohmann::json &json,
         // Erase away discovered propertes
         for(const auto &kv : discovered_properties) {
             json[kv.first] = nlohmann::json {
-                    { "misa-indexer:database-index", kv.second }
+                    { "misa-analyzer:database-index", kv.second }
             };
         }
 
