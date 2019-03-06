@@ -17,8 +17,23 @@ void attachment_indexer_task::discover(const nlohmann::json &json, const std::ve
             row.id = -1;
             row.sample = sample;
             row.cache = cache;
-            row.property = boost::algorithm::join(path, "/");
             row.serialization_id = serialization_id->get<std::string>();
+
+            for(size_t i = 0; i < path.size(); ++i) {
+                if(i > 0)
+                    row.property += "/";
+                std::string segment = path.at(i);
+                boost::replace_all(segment, "\"", "\\\"");
+                if(boost::contains(segment, "/")) {
+                    row.property += "\"";
+                    row.property += segment;
+                    row.property += "\"";
+                }
+                else {
+                    row.property += segment;
+                }
+            }
+
             db.get().insert(row);
         }
         for(auto it = json.begin(); it != json.end(); ++it) {
