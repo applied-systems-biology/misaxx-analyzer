@@ -17,10 +17,11 @@ namespace misaxx_analyzer {
         std::string cache;
         std::string property;
         std::string serialization_id;
+        std::string json_data;
     };
 
     struct attachment_index_database {
-        virtual void insert(const attachment_index_row &row) { };
+        virtual int insert(const attachment_index_row &row) { return 0; };
     };
 
     struct attachment_index_cache

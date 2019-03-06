@@ -17,7 +17,8 @@ namespace {
                                              make_column("sample", &attachment_index_row::sample),
                                              make_column("cache", &attachment_index_row::cache),
                                              make_column("property", &attachment_index_row::property),
-                                             make_column("serialization-id", &attachment_index_row::serialization_id)
+                                             make_column("serialization-id", &attachment_index_row::serialization_id),
+                                             make_column("json-data", &attachment_index_row::json_data)
         ));
     }
 
@@ -36,8 +37,8 @@ namespace {
             database.commit();
         }
 
-        void insert(const attachment_index_row &row) override {
-            database.insert(row);
+        int insert(const attachment_index_row &row) override {
+            return database.insert(row);
         }
 
     };
