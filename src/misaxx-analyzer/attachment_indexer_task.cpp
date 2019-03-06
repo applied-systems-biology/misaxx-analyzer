@@ -3,6 +3,7 @@
 //
 
 #include <misaxx-analyzer/module_interface.h>
+#include <sstream>
 #include "attachment_indexer_task.h"
 
 using namespace misaxx_analyzer;
