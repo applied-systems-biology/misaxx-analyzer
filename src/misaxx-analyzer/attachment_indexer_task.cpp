@@ -8,8 +8,28 @@
 using namespace misaxx_analyzer;
 using namespace misaxx;
 
-void attachment_indexer_task::discover(const nlohmann::json &json, const std::vector<std::string> &path, misaxx::readwrite_access<attachment_index_database> &db) {
+int attachment_indexer_task::discover(nlohmann::json &json,
+        const std::vector<std::string> &path, misaxx::readwrite_access<attachment_index_database> &db) {
     if(json.is_object()) {
+
+        std::unordered_map<std::string, int> discovered_properties;
+
+        for(auto it = json.begin(); it != json.end(); ++it) {
+            auto p = path;
+            p.emplace_back(it.key());
+            int id = discover(it.value(), p, db);
+            if(id > 0) {
+                discovered_properties[it.key()] = id;
+            }
+        }
+
+        // Erase away discovered propertes
+        for(const auto &kv : discovered_properties) {
+            json[kv.first] = nlohmann::json {
+                    { "misa-indexer:database-index", kv.second }
+            };
+        }
+
         auto serialization_id = json.find("misa:serialization-id");
         if(serialization_id != json.end()) {
             // Add to database
@@ -34,13 +54,15 @@ void attachment_indexer_task::discover(const nlohmann::json &json, const std::ve
                 }
             }
 
-            db.get().insert(row);
+            // Create a copy of the JSON data without already referenced properties
+            std::stringstream db_json_stream;
+            db_json_stream << json;
+            row.json_data = db_json_stream.str();
+
+            return db.get().insert(row);
         }
-        for(auto it = json.begin(); it != json.end(); ++it) {
-            auto p = path;
-            p.emplace_back(it.key());
-            discover(it.value(), p, db);
-        }
+
+        return -1;
     }
     else if(json.is_array()) {
         for(size_t i = 0; i < json.size(); ++i) {
@@ -48,6 +70,10 @@ void attachment_indexer_task::discover(const nlohmann::json &json, const std::ve
             p.emplace_back("[" + std::to_string(i) + "]");
             discover(json[i], p, db);
         }
+        return -1;
+    }
+    else {
+        return -1;
     }
 }
 
@@ -68,7 +94,8 @@ void attachment_indexer_task::work() {
     }
     auto json_access = attachments.access_readonly();
     auto db_access = get_module_as<module_interface>()->data.get_attachment_index().access_readwrite();
-    discover(json_access.get(), {}, db_access);
+    nlohmann::json json = json_access.get();
+    discover(json, {}, db_access);
 }
 
 void attachment_indexer_task::create_parameters(misaxx::misa_parameter_builder &t_parameters) {
