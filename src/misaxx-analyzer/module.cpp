@@ -19,14 +19,17 @@ void module::create_blueprints(blueprint_list &t_blueprints, parameter_list &t_p
 }
 
 void module::build(const misaxx::misa_dispatcher::blueprint_builder &t_builder) {
+
+    const bool unskippable = !misaxx::runtime_properties::requested_skipping();
+
     if(m_enable_attachment_indexing.query()) {
-        if(!boost::filesystem::exists(data.get_location() / "attachments" / "serialization-schemas-full.json"))
+        if(!boost::filesystem::exists(data.get_location() / "attachments" / "serialization-schemas-full.json") || unskippable)
             t_builder.build<schema_traversion_task>("schema-traversion");
         else
             std::cout << "Skipping serialization schema traversion ..." << "\n";
     }
     if(m_enable_schema_traversion.query()) {
-        if(!boost::filesystem::exists(data.get_location() / "attachment-index.sqlite")) {
+        if(!boost::filesystem::exists(data.get_location() / "attachment-index.sqlite") || unskippable) {
             for(const auto &attachments : get_module_as<module_interface>()->data.get_attachments()) {
                 auto &task = t_builder.build<attachment_indexer_task>("attachment-indexer");
                 task.attachments = attachments;
