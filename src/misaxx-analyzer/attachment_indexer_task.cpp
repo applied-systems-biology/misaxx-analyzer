@@ -30,10 +30,10 @@ attachment_indexer_discover_result attachment_indexer_task::discover(nlohmann::j
             json[kv.first] = nlohmann::json {
                     { "misa-analyzer:database-index", kv.second.database_id }
             };
-            if(!kv.second.title.empty())
-                json[kv.first]["misa:documentation-title"] = kv.second.title;
-            if(!kv.second.description.empty())
-                json[kv.first]["misa:documentation-description"] = kv.second.description;
+//            if(!kv.second.title.empty())
+//                json[kv.first]["misa:documentation-title"] = kv.second.title;
+//            if(!kv.second.description.empty())
+//                json[kv.first]["misa:documentation-description"] = kv.second.description;
         }
 
         auto serialization_id = json.find("misa:serialization-id");
@@ -68,10 +68,10 @@ attachment_indexer_discover_result attachment_indexer_task::discover(nlohmann::j
             attachment_indexer_discover_result result;
             result.database_id = db.get().insert(row);
 
-            if(json.find("misa:documentation-title") != json.end())
-                result.title = json.at("misa:documentation-title").get<std::string>();
-            if(json.find("misa:documentation-description") != json.end())
-                result.description = json.at("misa:documentation-description").get<std::string>();
+//            if(json.find("misa:documentation-title") != json.end())
+//                result.title = json.at("misa:documentation-title").get<std::string>();
+//            if(json.find("misa:documentation-description") != json.end())
+//                result.description = json.at("misa:documentation-description").get<std::string>();
 
             return result;
         }

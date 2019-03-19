@@ -11,8 +11,8 @@ namespace misaxx_analyzer {
 
     struct attachment_indexer_discover_result {
         int database_id = -1;
-        std::string title;
-        std::string description;
+//        std::string title;
+//        std::string description;
     };
 
     struct attachment_indexer_task : public misaxx::misa_task {
