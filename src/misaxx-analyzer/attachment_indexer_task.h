@@ -8,6 +8,13 @@
 #include <misaxx/core/accessors/misa_json.h>
 
 namespace misaxx_analyzer {
+
+    struct attachment_indexer_discover_result {
+        int database_id = -1;
+        std::string title;
+        std::string description;
+    };
+
     struct attachment_indexer_task : public misaxx::misa_task {
 
         misaxx::misa_json attachments;
@@ -18,7 +25,7 @@ namespace misaxx_analyzer {
 
         void create_parameters(misaxx::misa_parameter_builder &t_parameters) override;
 
-        int discover(nlohmann::json &json,
+        attachment_indexer_discover_result discover(nlohmann::json &json,
                 const std::vector<std::string> &path, misaxx::readwrite_access<attachment_index_database> &db);
 
     private:

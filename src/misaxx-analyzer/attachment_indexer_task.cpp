@@ -9,17 +9,18 @@
 using namespace misaxx_analyzer;
 using namespace misaxx;
 
-int attachment_indexer_task::discover(nlohmann::json &json,
+
+attachment_indexer_discover_result attachment_indexer_task::discover(nlohmann::json &json,
         const std::vector<std::string> &path, misaxx::readwrite_access<attachment_index_database> &db) {
     if(json.is_object()) {
 
-        std::unordered_map<std::string, int> discovered_properties;
+        std::unordered_map<std::string, attachment_indexer_discover_result> discovered_properties;
 
         for(auto it = json.begin(); it != json.end(); ++it) {
             auto p = path;
             p.emplace_back(it.key());
-            int id = discover(it.value(), p, db);
-            if(id > 0) {
+            attachment_indexer_discover_result id = discover(it.value(), p, db);
+            if(id.database_id > 0) {
                 discovered_properties[it.key()] = id;
             }
         }
@@ -27,8 +28,12 @@ int attachment_indexer_task::discover(nlohmann::json &json,
         // Erase away discovered propertes
         for(const auto &kv : discovered_properties) {
             json[kv.first] = nlohmann::json {
-                    { "misa-analyzer:database-index", kv.second }
+                    { "misa-analyzer:database-index", kv.second.database_id }
             };
+            if(!kv.second.title.empty())
+                json[kv.first]["misa:documentation-title"] = kv.second.title;
+            if(!kv.second.description.empty())
+                json[kv.first]["misa:documentation-description"] = kv.second.description;
         }
 
         auto serialization_id = json.find("misa:serialization-id");
@@ -60,10 +65,18 @@ int attachment_indexer_task::discover(nlohmann::json &json,
             db_json_stream << json;
             row.json_data = db_json_stream.str();
 
-            return db.get().insert(row);
+            attachment_indexer_discover_result result;
+            result.database_id = db.get().insert(row);
+
+            if(json.find("misa:documentation-title") != json.end())
+                result.title = json.at("misa:documentation-title").get<std::string>();
+            if(json.find("misa:documentation-description") != json.end())
+                result.description = json.at("misa:documentation-description").get<std::string>();
+
+            return result;
         }
 
-        return -1;
+        return attachment_indexer_discover_result {};
     }
     else if(json.is_array()) {
         for(size_t i = 0; i < json.size(); ++i) {
@@ -71,10 +84,10 @@ int attachment_indexer_task::discover(nlohmann::json &json,
             p.emplace_back("[" + std::to_string(i) + "]");
             discover(json[i], p, db);
         }
-        return -1;
+        return attachment_indexer_discover_result {};
     }
     else {
-        return -1;
+        return attachment_indexer_discover_result {};
     }
 }
 
