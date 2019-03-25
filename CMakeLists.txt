@@ -35,7 +35,9 @@ add_library(misaxx-analyzer include/misaxx-analyzer/module_interface.h
         src/misaxx-analyzer/patterns/attachment_index_pattern.cpp
         include/misaxx-analyzer/patterns/attachment_index_pattern.h
         src/misaxx-analyzer/accessors/attachment_index.cpp
-        include/misaxx-analyzer/accessors/attachment_index.h)
+        include/misaxx-analyzer/accessors/attachment_index.h
+        include/misaxx-analyzer/module_info.h
+        src/misaxx-analyzer/module_info.cpp)
 
 # Add additional link targets if necessary
 target_link_libraries(misaxx-analyzer PUBLIC misaxx::misaxx-core PRIVATE SQLite::SQLite3)
