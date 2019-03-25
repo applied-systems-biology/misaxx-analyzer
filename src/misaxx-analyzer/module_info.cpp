@@ -4,12 +4,23 @@
 
 misaxx::misa_module_info misaxx_analyzer::module_info() {
     misaxx::misa_mutable_module_info info;
-    info.set_id("misaxx-analyzer");
-    info.set_version("0.1.0");
-    info.set_name("MISA++ Analysis Helper");
-    info.set_description("A MISA++ module");
-    
+    info.set_id("@PROJECT_NAME@");
+    info.set_version("@PROJECT_VERSION@");
+    info.set_name("@PROJECT_DESCRIPTION@");
+    info.set_description("Companion module for MISA-ImageJ that applies performance-critical tasks");
+
+    // External dependency: OME Files
+    misaxx::misa_mutable_module_info sqlite_info;
+    sqlite_info.set_id("sqlite3");
+    sqlite_info.set_name("SQLite");
+    sqlite_info.set_version("3");
+    sqlite_info.set_url("https://www.sqlite.org/");
+    sqlite_info.set_organization("SQLite Consortium");
+    sqlite_info.set_license("Public Domain");
+    sqlite_info.set_is_external(true);
+
     info.add_dependency(misaxx::module_info());
-    // TODO: Add dependencies via info.add_dependency()
+    info.add_dependency(std::move(sqlite_info));
+
     return info;
 }
