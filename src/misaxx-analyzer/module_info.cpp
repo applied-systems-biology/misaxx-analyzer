@@ -4,9 +4,9 @@
 
 misaxx::misa_module_info misaxx_analyzer::module_info() {
     misaxx::misa_mutable_module_info info;
-    info.set_id("@PROJECT_NAME@");
-    info.set_version("@PROJECT_VERSION@");
-    info.set_name("@PROJECT_DESCRIPTION@");
+    info.set_id("misaxx-analyzer");
+    info.set_version("1.0.0");
+    info.set_name("MISA++ Result Analyzer");
     info.set_description("Companion module for MISA-ImageJ that applies performance-critical tasks");
 
     // External dependency: OME Files
