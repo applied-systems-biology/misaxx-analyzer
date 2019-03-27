@@ -1,4 +1,3 @@
-#include <misaxx/core/misa_mutable_module_info.h>
 #include <misaxx/core/module_info.h>
 #include <misaxx-analyzer/module_info.h>
 
