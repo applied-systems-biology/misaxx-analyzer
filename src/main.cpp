@@ -6,6 +6,8 @@ using namespace misaxx;
 using namespace misaxx_analyzer;
 
 int main(int argc, const char** argv) {
-    misa_cli<misaxx_analyzer::module> cli(misaxx_analyzer::module_info());
+    misa_cli cli {};
+    cli.set_module_info(misaxx_analyzer::module_info());
+    cli.set_root_module<misaxx_analyzer::module>("misaxx-analyzer");
     return cli.prepare_and_run(argc, argv);
 }
