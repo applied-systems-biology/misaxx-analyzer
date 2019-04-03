@@ -38,7 +38,7 @@ You need a compiler capable of C++ version 2017 or higher to compile MISA++ Resu
 
 # Building
 
-MISA++ core uses the [CMake](https://cmake.org/) build system and requires no
+The project uses the [CMake](https://cmake.org/) build system and requires no
 additional build instructions that differ from the standard CMake building process.
 
 You might need to provide `SQLite3_INCLUDE_DIRS` and `SQLite3_LIBRARIES` if
