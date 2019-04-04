@@ -106,13 +106,12 @@ void attachment_indexer_task::work() {
     // Open access only once
     auto db_access = get_module_as<module_interface>()->data.get_attachment_index().access_readwrite();
 
-    const size_t attachments_count = get_module_as<module_interface>()->data.get_attachments().size();
+    const auto attachments_vector =  get_module_as<module_interface>()->data.get_attachments();
+    for(size_t i = 0; i < attachments_vector.size(); ++i) {
 
-    for(size_t i = 0; i < attachments_count; ++i) {
-
-        const misa_json &attachments =  get_module_as<module_interface>()->data.get_attachments().at(i);
+        const misa_json &attachments =  attachments_vector.at(i);
         // Send progress manually, so MISA++ for ImageJ can pick it up
-        std::cout << "<#> <" << i << " / " << attachments_count << ">" << " Indexing attachment " << attachments.get_unique_location() << "\n";
+        std::cout << "<#> <" << i << " / " << attachments_vector.size() << ">" << " Indexing attachment " << attachments.get_unique_location() << "\n";
 
         // Extract the sample and cache from the attachment
         boost::filesystem::path attachment_root_path =
