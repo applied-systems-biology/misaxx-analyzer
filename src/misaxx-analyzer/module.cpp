@@ -41,10 +41,7 @@ void module::build(const misaxx::misa_dispatcher::blueprint_builder &t_builder) 
     }
     if(m_enable_schema_traversion.query()) {
         if(!boost::filesystem::exists(data.get_location() / "attachment-index.sqlite") || unskippable) {
-            for(const auto &attachments : get_module_as<module_interface>()->data.get_attachments()) {
-                auto &task = t_builder.build<attachment_indexer_task>("attachment-indexer");
-                task.attachments = attachments;
-            }
+            t_builder.build<attachment_indexer_task>("attachment-indexer");
         }
         else {
             std::cout << "Skipping attachment indexing ..." << "\n";

@@ -25,8 +25,6 @@ namespace misaxx_analyzer {
 
     struct attachment_indexer_task : public misaxx::misa_task {
 
-        misaxx::misa_json attachments;
-
         using misaxx::misa_task::misa_task;
 
         void work() override;
@@ -34,13 +32,9 @@ namespace misaxx_analyzer {
         void create_parameters(misaxx::misa_parameter_builder &t_parameters) override;
 
         attachment_indexer_discover_result discover(nlohmann::json &json,
-                const std::vector<std::string> &path, misaxx::readwrite_access<attachment_index_database> &db);
-
-    private:
-
-        std::string sample;
-        std::string cache;
-
+                const std::vector<std::string> &path, misaxx::readwrite_access<attachment_index_database> &db,
+                const std::string &sample,
+                const std::string &cache);
     };
 }
 

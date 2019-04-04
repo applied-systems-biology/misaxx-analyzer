@@ -19,7 +19,10 @@ using namespace misaxx;
 
 
 attachment_indexer_discover_result attachment_indexer_task::discover(nlohmann::json &json,
-        const std::vector<std::string> &path, misaxx::readwrite_access<attachment_index_database> &db) {
+        const std::vector<std::string> &path,
+        misaxx::readwrite_access<attachment_index_database> &db,
+         const std::string &sample,
+         const std::string &cache) {
     if(json.is_object()) {
 
         std::unordered_map<std::string, attachment_indexer_discover_result> discovered_properties;
@@ -27,7 +30,7 @@ attachment_indexer_discover_result attachment_indexer_task::discover(nlohmann::j
         for(auto it = json.begin(); it != json.end(); ++it) {
             auto p = path;
             p.emplace_back(it.key());
-            attachment_indexer_discover_result id = discover(it.value(), p, db);
+            attachment_indexer_discover_result id = discover(it.value(), p, db, sample, cache);
             if(id.database_id > 0) {
                 discovered_properties[it.key()] = id;
             }
@@ -90,7 +93,7 @@ attachment_indexer_discover_result attachment_indexer_task::discover(nlohmann::j
         for(size_t i = 0; i < json.size(); ++i) {
             auto p = path;
             p.emplace_back("[" + std::to_string(i) + "]");
-            discover(json[i], p, db);
+            discover(json[i], p, db, sample, cache);
         }
         return attachment_indexer_discover_result {};
     }
@@ -100,24 +103,32 @@ attachment_indexer_discover_result attachment_indexer_task::discover(nlohmann::j
 }
 
 void attachment_indexer_task::work() {
-    std::cout << "Indexing attachment " << attachments.get_unique_location() << "\n";
-
-    // Extract the sample and cache from the attachment
-    boost::filesystem::path attachment_root_path = get_module_as<module_interface>()->data.get_location() / "attachments";
-    boost::filesystem::path attachment_relative_path = boost::filesystem::relative(attachments.get_unique_location(), attachment_root_path);
-    std::vector<std::string> segments;
-    for(const boost::filesystem::path &segment: attachment_relative_path) {
-        segments.emplace_back(segment.filename().string());
-    }
-    sample = segments[1];
-    cache = segments[0];
-    for(size_t i = 2; i < segments.size(); ++i) {
-        cache += "/" + segments[i];
-    }
-    auto json_access = attachments.access_readonly();
+    // Open access only once
     auto db_access = get_module_as<module_interface>()->data.get_attachment_index().access_readwrite();
-    nlohmann::json json = json_access.get();
-    discover(json, {}, db_access);
+
+    for(const auto &attachments : get_module_as<module_interface>()->data.get_attachments()) {
+
+        std::cout << "Indexing attachment " << attachments.get_unique_location() << "\n";
+
+        // Extract the sample and cache from the attachment
+        boost::filesystem::path attachment_root_path =
+                get_module_as<module_interface>()->data.get_location() / "attachments";
+        boost::filesystem::path attachment_relative_path = boost::filesystem::relative(
+                attachments.get_unique_location(), attachment_root_path);
+        std::vector<std::string> segments;
+        for (const boost::filesystem::path &segment: attachment_relative_path) {
+            segments.emplace_back(segment.filename().string());
+        }
+        std::string sample = segments[1];
+        std::string cache = segments[0];
+        for (size_t i = 2; i < segments.size(); ++i) {
+            cache += "/" + segments[i];
+        }
+        auto json_access = attachments.access_readonly();
+
+        nlohmann::json json = json_access.get();
+        discover(json, {}, db_access, sample, cache);
+    }
 }
 
 void attachment_indexer_task::create_parameters(misaxx::misa_parameter_builder &t_parameters) {
