@@ -1,4 +1,5 @@
-MISA++: A modular and high-performance framework for image analysis
+**MISA++: A modular and high-performance framework for image analysis**
+
 Ruman Gerst (1,2), Anna Medyukhina (1), Marc Thilo Figge(1,2,\*)
 
 (1) Applied Systems Biology, Leibniz Institute for Natural Product Research and Infection Biology - Hans-Knöll-Institute, Jena, Germany
