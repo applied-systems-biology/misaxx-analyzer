@@ -2,7 +2,9 @@ MISA++: A modular and high-performance framework for image analysis
 Ruman Gerst (1,2), Anna Medyukhina (1), Marc Thilo Figge(1,2,\*)
 
 (1) Applied Systems Biology, Leibniz Institute for Natural Product Research and Infection Biology - Hans-Knöll-Institute, Jena, Germany
+
 (2) Faculty of Biological Sciences, Friedrich-Schiller-University Jena, Germany
+
 \* To whom correspondence should be addressed.
 
 https://applied-systems-biology.github.io/misa-framework/
