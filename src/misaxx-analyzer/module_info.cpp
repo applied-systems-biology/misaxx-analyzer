@@ -16,7 +16,7 @@
 misaxx::misa_module_info misaxx_analyzer::module_info() {
     misaxx::misa_module_info info;
     info.set_id("misaxx-analyzer");
-    info.set_version("1.0.0");
+    info.set_version("1.0.0.2");
     info.set_name("MISA++ Result Analyzer");
     info.set_description("Companion module for MISA-ImageJ that applies performance-critical tasks");
 
