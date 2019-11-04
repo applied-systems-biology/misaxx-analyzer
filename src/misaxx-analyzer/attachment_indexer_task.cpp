@@ -13,6 +13,7 @@
 #include <misaxx-analyzer/module_interface.h>
 #include <sstream>
 #include "attachment_indexer_task.h"
+#include <misaxx/core/utils/filesystem.h>
 
 using namespace misaxx_analyzer;
 using namespace misaxx;
@@ -117,7 +118,7 @@ void attachment_indexer_task::work() {
         boost::filesystem::path attachment_root_path =
                 get_module_as<module_interface>()->data.get_location() / "attachments";
         boost::filesystem::path attachment_relative_path = boost::filesystem::relative(
-                attachments.get_unique_location(), attachment_root_path);
+                misaxx::utils::make_preferred(attachments.get_unique_location()), misaxx::utils::make_preferred(attachment_root_path));
         std::vector<std::string> segments;
         for (const boost::filesystem::path &segment: attachment_relative_path) {
             segments.emplace_back(segment.filename().string());
