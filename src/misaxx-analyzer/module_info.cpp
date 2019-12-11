@@ -19,6 +19,10 @@ misaxx::misa_module_info misaxx_analyzer::module_info() {
     info.set_version("1.0.0.2");
     info.set_name("MISA++ Result Analyzer");
     info.set_description("Companion module for MISA-ImageJ that applies performance-critical tasks");
+    info.add_author("Ruman Gerst");
+    info.set_license("BSD-2-Clause");
+    info.set_organization("Leibniz Institute for Natural Product Research and Infection Biology - Hans Knöll Institute (HKI), Jena, Germany");
+    info.set_url("https://applied-systems-biology.github.io/misa-framework/");
 
     // External dependency: OME Files
     misaxx::misa_module_info sqlite_info;
